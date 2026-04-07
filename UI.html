@@ -3,9 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crisp Cart</title>
+    <title>AI Music Generator | Crisp Cart</title>
+    <link rel="stylesheet" href="./CSS/music-generator.css">
 </head>
 <body>
-    
+    <main class="app-shell">
+        <header class="hero">
+            <p class="eyebrow">AI-based experience</p>
+            <h1>Professional Personalized Music Generator</h1>
+            <p class="subtitle">
+                Generate a tailored soundtrack from your current mood and activity.
+                The AI engine maps energy, tempo, and production style to your moment.
+            </p>
+        </header>
+
+        <section class="generator-card" aria-labelledby="generator-title">
+            <h2 id="generator-title">Build your personalized mix</h2>
+
+            <form id="musicGeneratorForm" class="generator-form">
+                <div class="field-group">
+                    <label for="nameInput">Your name</label>
+                    <input id="nameInput" type="text" placeholder="e.g., Jordan" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="moodSelect">Current mood</label>
+                    <select id="moodSelect" required>
+                        <option value="" selected disabled>Select your mood</option>
+                        <option value="happy">Happy</option>
+                        <option value="focused">Focused</option>
+                        <option value="calm">Calm</option>
+                        <option value="romantic">Romantic</option>
+                        <option value="energetic">Energetic</option>
+                        <option value="melancholic">Melancholic</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="activitySelect">Current activity</label>
+                    <select id="activitySelect" required>
+                        <option value="" selected disabled>Select your activity</option>
+                        <option value="deep-work">Deep Work</option>
+                        <option value="gym">Gym Session</option>
+                        <option value="commute">Commuting</option>
+                        <option value="study">Studying</option>
+                        <option value="creative">Creative Session</option>
+                        <option value="sleep">Wind Down / Sleep</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="durationSelect">Playlist duration</label>
+                    <select id="durationSelect" required>
+                        <option value="20">20 Minutes</option>
+                        <option value="35" selected>35 Minutes</option>
+                        <option value="50">50 Minutes</option>
+                        <option value="65">65 Minutes</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="generate-btn">Generate AI Playlist</button>
+            </form>
+        </section>
+
+        <section class="output-card" aria-live="polite" aria-labelledby="playlistTitle">
+            <h2 id="playlistTitle">Your generated playlist appears here</h2>
+            <p class="output-hint">Choose mood + activity and click generate.</p>
+            <ul id="trackList"></ul>
+        </section>
+    </main>
+
+    <script src="./JavaScript/music-generator.js"></script>
 </body>
 </html>

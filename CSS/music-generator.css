@@ -1,0 +1,127 @@
+:root {
+    --bg: #0f1221;
+    --panel: #1b2140;
+    --panel-light: #242b55;
+    --accent: #7c8dff;
+    --accent-2: #32d7c8;
+    --text: #f5f7ff;
+    --muted: #b8c0ea;
+    --border: #38417a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background: radial-gradient(circle at top, #20295a 0%, var(--bg) 55%);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 1.25rem;
+}
+
+.app-shell {
+    max-width: 920px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.hero,
+.generator-card,
+.output-card {
+    background: linear-gradient(180deg, var(--panel-light) 0%, var(--panel) 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem;
+}
+
+.eyebrow {
+    color: var(--accent-2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.76rem;
+    margin-bottom: 0.5rem;
+}
+
+h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--muted);
+    line-height: 1.5;
+}
+
+h2 {
+    margin-bottom: 0.8rem;
+}
+
+.generator-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.9rem;
+}
+
+.field-group {
+    display: grid;
+    gap: 0.35rem;
+}
+
+label {
+    color: var(--muted);
+    font-size: 0.93rem;
+}
+
+input,
+select,
+.generate-btn {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #111734;
+    color: var(--text);
+    padding: 0.72rem;
+    font-size: 0.95rem;
+}
+
+.generate-btn {
+    grid-column: 1 / -1;
+    cursor: pointer;
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: #0a1126;
+    border: none;
+}
+
+.generate-btn:hover {
+    filter: brightness(1.06);
+}
+
+.output-hint {
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+}
+
+#trackList {
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+}
+
+#trackList li {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem;
+    background: #131a38;
+}
+
+.track-meta {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-top: 0.2rem;
+}
