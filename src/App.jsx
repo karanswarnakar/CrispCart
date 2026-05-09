@@ -1,45 +1,32 @@
-import { useRef, useState } from "react";
 import "./App.css";
-import Slider from "./components/Slider";
-import { slides } from "./data/slides";
+import MainView from "./components/MainView";
+import InputModal from "./components/InputModal";
+import PlayerBar from "./components/PlayerBar";
+import Sidebar from "./components/Sidebar";
+import SkeletonApp from "./components/SkeletonApp";
+import { MusicProvider, useMusic } from "./context/MusicContext";
 
-export default function App() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const touchStartX = useRef(0);
-  const swipeThreshold = 50;
+function SpotifyShell() {
+  const { isLoading } = useMusic();
 
-  const handleTouchStart = (event) => {
-    touchStartX.current = event.changedTouches[0].clientX;
-  };
-
-  const handleTouchEnd = (event) => {
-    const touchEndX = event.changedTouches[0].clientX;
-    const swipeDistance = touchEndX - touchStartX.current;
-
-    if (swipeDistance < -swipeThreshold) {
-      setCurrentIndex((index) => Math.min(slides.length - 1, index + 1));
-      return;
-    }
-
-    if (swipeDistance > swipeThreshold) {
-      setCurrentIndex((index) => Math.max(0, index - 1));
-    }
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((index) => Math.min(slides.length - 1, index + 1));
-  };
+  if (isLoading) {
+    return <SkeletonApp />;
+  }
 
   return (
-    <div className="app">
-      <Slider
-        slides={slides}
-        currentIndex={currentIndex}
-        onNext={handleNext}
-        onSetIndex={setCurrentIndex}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      />
+    <div className="spotify-app">
+      <Sidebar />
+      <MainView />
+      <PlayerBar />
+      <InputModal />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <MusicProvider>
+      <SpotifyShell />
+    </MusicProvider>
   );
 }
