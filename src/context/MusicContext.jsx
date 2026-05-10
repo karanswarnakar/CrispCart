@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { starterPlaylists, tracks, views } from "../data/musicData";
+import { starterPlaylists, tracks as initialTracks, views } from "../data/musicData";
 import { getTracksByIds } from "../utils/music";
 
 const MusicContext = createContext(null);
@@ -9,6 +9,7 @@ export function MusicProvider({ children }) {
   const [activeView, setActiveView] = useState(views.HOME);
   const [activePlaylistId, setActivePlaylistId] = useState(starterPlaylists[0].id);
   const [playlists, setPlaylists] = useState(starterPlaylists);
+  const [tracks, setTracks] = useState(initialTracks);
   const [likedIds, setLikedIds] = useState(["t1", "t3", "t8"]);
   const [query, setQuery] = useState("");
   const [queue, setQueue] = useState(getTracksByIds(starterPlaylists[0].trackIds));
@@ -19,6 +20,7 @@ export function MusicProvider({ children }) {
   const [shuffle, setShuffle] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [modal, setModal] = useState(null);
+
   const [account, setAccount] = useState({
     displayName: "Alex Morgan",
     email: "alex@spotifly.local",
@@ -159,6 +161,31 @@ export function MusicProvider({ children }) {
     setModal(null);
   };
 
+  const openAddTrackModal = () => {
+    setModal({ type: "track" });
+  };
+
+  const submitAddTrackModal = (trackData) => {
+    const { title, artist, album, duration, color, mood } = trackData;
+    
+    if (!title?.trim() || !artist?.trim() || !album?.trim() || !mood?.trim()) {
+      return;
+    }
+
+    const newTrack = {
+      id: `t${Date.now()}`,
+      title: title.trim(),
+      artist: artist.trim(),
+      album: album.trim(),
+      duration: parseInt(duration) || 200,
+      color: color || "#1db954",
+      mood: mood.trim(),
+    };
+
+    setTracks((currentTracks) => [...currentTracks, newTrack]);
+    setModal(null);
+  };
+
   const closeModal = () => {
     setModal(null);
   };
@@ -215,6 +242,7 @@ export function MusicProvider({ children }) {
     likedIds,
     modal,
     openAccountEditor,
+    openAddTrackModal,
     openPlaylist,
     playNextTrack,
     playPlaylist,
@@ -235,6 +263,7 @@ export function MusicProvider({ children }) {
     setVolume,
     shuffle,
     submitAccountModal,
+    submitAddTrackModal,
     submitPlaylistModal,
     toggleLike,
     tracks,

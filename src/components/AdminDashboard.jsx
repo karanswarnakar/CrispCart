@@ -8,6 +8,7 @@ export default function AdminDashboard() {
     currentTrack,
     isPlaying,
     likedIds,
+    openAddTrackModal,
     openPlaylist,
     playPlaylist,
     playlists,
@@ -57,6 +58,9 @@ export default function AdminDashboard() {
         <div className="admin-actions">
           <button type="button" onClick={createPlaylist}>
             Create playlist
+          </button>
+          <button type="button" onClick={openAddTrackModal}>
+            Add music
           </button>
           <button type="button" onClick={() => setIsPlaying((value) => !value)}>
             {isPlaying ? "Pause app" : "Resume app"}
@@ -150,6 +154,30 @@ export default function AdminDashboard() {
               <span>{currentTrack.artist}</span>
               <small>{isPlaying ? "Playing" : "Paused"}</small>
             </div>
+          </div>
+        </section>
+
+        <section className="admin-panel">
+          <div className="admin-panel-heading">
+            <h3>Catalog Tracks</h3>
+            <button type="button" onClick={() => setActiveView(views.SEARCH)}>
+              View all
+            </button>
+          </div>
+          <div className="admin-list">
+            {tracks.slice(-5).reverse().map((track) => (
+              <article className="admin-list-row" key={track.id}>
+                <div className="admin-color" style={{ "--cover": track.color }} />
+                <div>
+                  <strong>{track.title}</strong>
+                  <span>{track.artist}</span>
+                  <small>{track.mood} • {track.album}</small>
+                </div>
+                <div className="admin-row-actions">
+                  <span className="track-mood">{track.mood}</span>
+                </div>
+              </article>
+            ))}
           </div>
         </section>
       </div>

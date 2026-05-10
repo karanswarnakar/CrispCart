@@ -7,6 +7,7 @@ export default function InputModal() {
     closeModal,
     modal,
     submitAccountModal,
+    submitAddTrackModal,
     submitPlaylistModal,
   } = useMusic();
   const [fields, setFields] = useState({});
@@ -19,11 +20,23 @@ export default function InputModal() {
     if (modal?.type === "account") {
       setFields(account);
     }
+
+    if (modal?.type === "track") {
+      setFields({ 
+        title: "", 
+        artist: "", 
+        album: "", 
+        duration: "200", 
+        color: "#1db954", 
+        mood: "" 
+      });
+    }
   }, [account, modal]);
 
   if (!modal) return null;
 
   const isAccount = modal.type === "account";
+  const isTrack = modal.type === "track";
 
   const updateField = (key, value) => {
     setFields((currentFields) => ({ ...currentFields, [key]: value }));
@@ -34,6 +47,11 @@ export default function InputModal() {
 
     if (isAccount) {
       submitAccountModal(fields);
+      return;
+    }
+
+    if (isTrack) {
+      submitAddTrackModal(fields);
       return;
     }
 
@@ -51,8 +69,12 @@ export default function InputModal() {
       >
         <div className="modal-heading">
           <div>
-            <p className="view-kicker">{isAccount ? "Account Settings" : "Playlist"}</p>
-            <h2 id="input-modal-title">{isAccount ? "Edit profile" : "Create playlist"}</h2>
+            <p className="view-kicker">
+              {isAccount ? "Account Settings" : isTrack ? "Add Music" : "Playlist"}
+            </p>
+            <h2 id="input-modal-title">
+              {isAccount ? "Edit profile" : isTrack ? "Add new track" : "Create playlist"}
+            </h2>
           </div>
           <button className="modal-close" type="button" onClick={closeModal} aria-label="Close modal">
             x
@@ -97,6 +119,80 @@ export default function InputModal() {
                 </select>
               </label>
             </>
+          ) : isTrack ? (
+            <>
+              <label>
+                <span>Music Name (Title)</span>
+                <input
+                  autoFocus
+                  type="text"
+                  placeholder="e.g., Blinding Lights"
+                  value={fields.title ?? ""}
+                  onChange={(event) => updateField("title", event.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                <span>Artist</span>
+                <input
+                  type="text"
+                  placeholder="e.g., The Weeknd"
+                  value={fields.artist ?? ""}
+                  onChange={(event) => updateField("artist", event.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                <span>Album</span>
+                <input
+                  type="text"
+                  placeholder="e.g., After Hours"
+                  value={fields.album ?? ""}
+                  onChange={(event) => updateField("album", event.target.value)}
+                  required
+                />
+              </label>
+              <label>
+                <span>Duration (seconds)</span>
+                <input
+                  type="number"
+                  placeholder="200"
+                  value={fields.duration ?? ""}
+                  onChange={(event) => updateField("duration", event.target.value)}
+                  min="1"
+                />
+              </label>
+              <label>
+                <span>Banner Color</span>
+                <input
+                  type="color"
+                  value={fields.color ?? "#1db954"}
+                  onChange={(event) => updateField("color", event.target.value)}
+                />
+              </label>
+              <label>
+                <span>Mood/Genre</span>
+                <select 
+                  value={fields.mood ?? ""} 
+                  onChange={(event) => updateField("mood", event.target.value)}
+                  required
+                >
+                  <option value="">Select a mood</option>
+                  <option>Pop</option>
+                  <option>Dance</option>
+                  <option>Chill</option>
+                  <option>Indie</option>
+                  <option>Night</option>
+                  <option>Alt</option>
+                  <option>R&B</option>
+                  <option>Easy</option>
+                  <option>Hip-Hop</option>
+                  <option>Rock</option>
+                  <option>Jazz</option>
+                  <option>Electronic</option>
+                </select>
+              </label>
+            </>
           ) : (
             <label>
               <span>Playlist name</span>
@@ -115,7 +211,7 @@ export default function InputModal() {
               Cancel
             </button>
             <button className="modal-primary" type="submit">
-              {isAccount ? "Save changes" : "Create playlist"}
+              {isAccount ? "Save changes" : isTrack ? "Add track" : "Create playlist"}
             </button>
           </div>
         </form>
