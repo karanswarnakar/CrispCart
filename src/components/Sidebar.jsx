@@ -14,10 +14,29 @@ export default function Sidebar() {
 
   return (
     <aside className="sidebar" aria-label="Library">
-      <button className="brand" type="button" onClick={() => setActiveView(views.HOME)}>
-        <span className="brand-mark">S</span>
-        <span>SpotiFy</span>
-      </button>
+      <div className="sidebar-top">
+        <button className="brand" type="button" onClick={() => setActiveView(views.HOME)}>
+          <span className="brand-mark">S</span>
+          <span>SpotiFy</span>
+        </button>
+        <div className="sidebar-categories" aria-label="Library categories">
+          {[
+            ["Playlists", views.LIBRARY],
+            ["Podcasts", views.SEARCH],
+            ["Albums", views.LIKED],
+            ["Artists", views.ACCOUNT],
+          ].map(([label, view]) => (
+            <button
+              key={label}
+              type="button"
+              className={`nav-pill ${activeView === view ? "is-active" : ""}`}
+              onClick={() => setActiveView(view)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <nav className="nav-list" aria-label="Main navigation">
         {[
@@ -44,8 +63,8 @@ export default function Sidebar() {
       <div className="library-block">
         <div className="library-title">
           <span>Playlists</span>
-          <button type="button" aria-label="Create playlist" onClick={createPlaylist}>
-            +
+          <button className="icon-button small" type="button" aria-label="Create playlist" onClick={createPlaylist}>
+            <Icon name="plus" />
           </button>
         </div>
         {playlists.map((playlist) => (

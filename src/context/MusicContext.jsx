@@ -20,6 +20,8 @@ export function MusicProvider({ children }) {
   const [shuffle, setShuffle] = useState(false);
   const [repeat, setRepeat] = useState(false);
   const [modal, setModal] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const TRACKS_PER_PAGE = 6;
 
   const [account, setAccount] = useState({
     displayName: "Alex Morgan",
@@ -44,7 +46,7 @@ export function MusicProvider({ children }) {
         value.toLowerCase().includes(normalized),
       ),
     );
-  }, [query]);
+  }, [query, tracks]);
 
   const visibleTracks = useMemo(() => {
     if (activeView === views.SEARCH) return searchResults;
@@ -52,7 +54,14 @@ export function MusicProvider({ children }) {
     if (activeView === views.QUEUE) return queue;
     if (activeView === views.PLAYLIST) return getTracksByIds(activePlaylist.trackIds);
     return tracks;
-  }, [activePlaylist, activeView, likedIds, queue, searchResults]);
+  }, [activePlaylist, activeView, likedIds, queue, searchResults, tracks]);
+
+  const pageCount = Math.max(1, Math.ceil(visibleTracks.length / TRACKS_PER_PAGE));
+  const paginatedTracks = visibleTracks.slice((currentPage - 1) * TRACKS_PER_PAGE, currentPage * TRACKS_PER_PAGE);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeView, query, visibleTracks.length]);
 
   const viewTitle = {
     [views.HOME]: "Good afternoon",
@@ -270,6 +279,10 @@ export function MusicProvider({ children }) {
     viewTitle,
     views,
     visibleTracks,
+    paginatedTracks,
+    pageCount,
+    currentPage,
+    setCurrentPage,
     volume,
   };
 

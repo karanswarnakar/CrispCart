@@ -1,8 +1,19 @@
 import { useMusic } from "../context/MusicContext";
 import TrackList from "./TrackList";
+import Pagination from "./Pagination";
 
 export default function TrackPage() {
-  const { activeView, playTrack, viewTitle, views, visibleTracks } = useMusic();
+  const {
+    activeView,
+    currentPage,
+    pageCount,
+    playTrack,
+    setCurrentPage,
+    viewTitle,
+    views,
+    visibleTracks,
+    paginatedTracks,
+  } = useMusic();
 
   return (
     <section className="track-section page-section" aria-label={viewTitle}>
@@ -24,7 +35,10 @@ export default function TrackPage() {
       </div>
 
       {visibleTracks.length ? (
-        <TrackList tracks={visibleTracks} />
+        <>
+          <TrackList tracks={paginatedTracks} />
+          <Pagination currentPage={currentPage} pageCount={pageCount} onPageChange={setCurrentPage} />
+        </>
       ) : (
         <div className="empty-state">
           <h3>No songs here yet</h3>

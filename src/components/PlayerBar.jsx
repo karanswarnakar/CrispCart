@@ -23,11 +23,13 @@ export default function PlayerBar() {
 
   return (
     <footer className="player-bar" aria-label="Music player">
-      <div className="now-playing">
-        <div className="mini-cover" style={{ "--track": currentTrack.color }} aria-hidden="true" />
-        <div>
-          <strong>{currentTrack.title}</strong>
-          <span>{currentTrack.artist}</span>
+      <div className="player-left">
+        <div className="now-playing">
+          <div className="mini-cover" style={{ "--track": currentTrack.color }} aria-hidden="true" />
+          <div className="track-meta">
+            <strong>{currentTrack.title}</strong>
+            <span>{currentTrack.artist}</span>
+          </div>
         </div>
         <button
           className={`icon-button save-button ${likedIds.includes(currentTrack.id) ? "is-liked" : ""}`}
@@ -38,7 +40,8 @@ export default function PlayerBar() {
           <Icon name="heart" />
         </button>
       </div>
-      <div className="player-controls">
+
+      <div className="player-center">
         <div className="control-buttons">
           <button
             className={shuffle ? "is-active" : ""}
@@ -84,16 +87,19 @@ export default function PlayerBar() {
           <span>{formatTime(currentTrack.duration)}</span>
         </div>
       </div>
-      <label className="volume-control" aria-label="Volume">
-        <Icon name="volume" />
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value={volume}
-          onChange={(event) => setVolume(Number(event.target.value))}
-        />
-      </label>
+
+      <div className="player-right">
+        <label className="volume-control" aria-label="Volume">
+          <Icon name="volume" />
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={volume}
+            onChange={(event) => setVolume(Number(event.target.value))}
+          />
+        </label>
+      </div>
     </footer>
   );
 }
